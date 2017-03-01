@@ -25,6 +25,7 @@ from django.conf.urls.static import static
 from geonode.sitemap import LayerSitemap, MapSitemap
 from django.views.generic import TemplateView
 from django.contrib import admin
+from maploom.geonode.urls import urlpatterns as maploom_urls
 
 import geonode.proxy.urls
 
@@ -60,6 +61,9 @@ urlpatterns = patterns('',
 
                        # Map views
                        (r'^maps/', include('geonode.maps.urls')),
+
+                       # Sensor views
+                       (r'^sensors/', include('geonode.sensors.urls')),
 
                        # Catalogue views
                        (r'^catalogue/', include('geonode.catalogue.urls')),
@@ -150,3 +154,6 @@ urlpatterns += patterns('',
                         (r'^featured/(?P<site>[A-Za-z0-9_\-]+)/$', 'geonode.maps.views.featured_map'),
                         (r'^featured/(?P<site>[A-Za-z0-9_\-]+)/info$', 'geonode.maps.views.featured_map_info'),
                         )
+
+# Maploom patterns
+urlpatterns += maploom_urls

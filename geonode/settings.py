@@ -237,7 +237,9 @@ GEONODE_APPS = (
     'geonode.people',
     'geonode.base',
     'geonode.layers',
+    'maploom',
     'geonode.maps',
+    'geonode.sensors',
     'geonode.proxy',
     'geonode.security',
     'geonode.social',
@@ -769,7 +771,9 @@ ACCOUNT_NOTIFY_ON_PASSWORD_CHANGE = False
 TASTYPIE_DEFAULT_FORMATS = ['json']
 
 # gravatar settings
-AUTO_GENERATE_AVATAR_SIZES = (20, 32, 80, 100, 140, 200)
+AUTO_GENERATE_AVATAR_SIZES = (
+    20, 30, 32, 40, 50, 65, 70, 80, 100, 140, 200, 240
+)
 
 # notification settings
 NOTIFICATION_LANGUAGE_MODULE = "account.Account"

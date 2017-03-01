@@ -18,23 +18,18 @@
 #
 #########################################################################
 
-import os
+from django.conf.urls import patterns, url
+from django.conf import settings
+from django.views.generic import TemplateView
 
-__version__ = (2, 5, 6, 'alpha', 0)
+js_info_dict = {
+    'packages': ('geonode.sensors',),
+}
 
-
-class GeoNodeException(Exception):
-    """Base class for exceptions in this module."""
-    pass
-
-
-def get_version():
-    import geonode.version
-    return geonode.version.get_version(__version__)
-
-
-def main(global_settings, **settings):
-    from django.core.wsgi import get_wsgi_application
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', settings.get('django_settings'))
-    app = get_wsgi_application()
-    return app
+urlpatterns = patterns(
+    'geonode.sensors.views',
+    url(r'^$', TemplateView.as_view(template_name='sensors_list.html'), name='sensors_browse'),
+    url(r'^add$', 'sensors_add', name='sensors_add'),
+    url(r'^(?P<sensor_id>[^/]*)$', 'sensor_detail', name="sensor_detail"),
+    #url(r'^add/connect$', 'sensors_add_connect', name='sensors_add_connect'),
+)

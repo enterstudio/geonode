@@ -35,6 +35,7 @@ from geonode.base.models import ResourceBase
 from geonode.base.models import TopicCategory
 from geonode.base.models import Region
 from geonode.layers.models import Layer
+from geonode.sensors.models import Sensor
 from geonode.maps.models import Map
 from geonode.documents.models import Document
 from geonode.groups.models import GroupProfile
@@ -50,6 +51,7 @@ from tastypie.utils import trailing_slash
 
 FILTER_TYPES = {
     'layer': Layer,
+    'sensor': Sensor,
     'map': Map,
     'document': Document
 }
@@ -99,7 +101,9 @@ class TypeFilteredResource(ModelResource):
 
     count = fields.IntegerField()
 
-    def build_filters(self, filters={}):
+    def build_filters(self, filters=None):
+        if filters is None:
+            filters = {}
         self.type_filter = None
         self.title_filter = None
 
@@ -114,7 +118,9 @@ class TypeFilteredResource(ModelResource):
 
         return orm_filters
 
-    def serialize(self, request, data, format, options={}):
+    def serialize(self, request, data, format, options=None):
+        if options is None:
+            options = {}
         options['title_filter'] = getattr(self, 'title_filter', None)
         options['type_filter'] = getattr(self, 'type_filter', None)
         options['user'] = request.user
@@ -125,7 +131,9 @@ class TypeFilteredResource(ModelResource):
 class TagResource(TypeFilteredResource):
     """Tags api"""
 
-    def serialize(self, request, data, format, options={}):
+    def serialize(self, request, data, format, options=None):
+        if options is None:
+            options = {}
         options['count_type'] = 'keywords'
 
         return super(TagResource, self).serialize(request, data, format, options)
@@ -143,7 +151,9 @@ class TagResource(TypeFilteredResource):
 class RegionResource(TypeFilteredResource):
     """Regions api"""
 
-    def serialize(self, request, data, format, options={}):
+    def serialize(self, request, data, format, options=None):
+        if options is None:
+            options = {}
         options['count_type'] = 'regions'
 
         return super(RegionResource, self).serialize(request, data, format, options)
@@ -163,7 +173,9 @@ class RegionResource(TypeFilteredResource):
 class TopicCategoryResource(TypeFilteredResource):
     """Category api"""
 
-    def serialize(self, request, data, format, options={}):
+    def serialize(self, request, data, format, options=None):
+        if options is None:
+            options = {}
         options['count_type'] = 'category'
 
         return super(TopicCategoryResource, self).serialize(request, data, format, options)
@@ -216,8 +228,10 @@ class ProfileResource(TypeFilteredResource):
     current_user = fields.BooleanField(default=False)
     activity_stream_url = fields.CharField(null=True)
 
-    def build_filters(self, filters={}):
+    def build_filters(self, filters=None):
         """adds filtering by group functionality"""
+        if filters is None:
+            filters = {}
 
         orm_filters = super(ProfileResource, self).build_filters(filters)
 
@@ -292,7 +306,9 @@ class ProfileResource(TypeFilteredResource):
         else:
             return []
 
-    def serialize(self, request, data, format, options={}):
+    def serialize(self, request, data, format, options=None):
+        if options is None:
+            options = {}
         options['count_type'] = 'owner'
 
         return super(ProfileResource, self).serialize(request, data, format, options)
@@ -314,7 +330,9 @@ class ProfileResource(TypeFilteredResource):
 class OwnersResource(TypeFilteredResource):
     """Owners api, lighter and faster version of the profiles api"""
 
-    def serialize(self, request, data, format, options={}):
+    def serialize(self, request, data, format, options=None):
+        if options is None:
+            options = {}
         options['count_type'] = 'owner'
 
         return super(OwnersResource, self).serialize(request, data, format, options)

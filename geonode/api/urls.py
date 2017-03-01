@@ -22,12 +22,14 @@ from tastypie.api import Api
 
 from .api import TagResource, TopicCategoryResource, ProfileResource, \
     GroupResource, RegionResource, OwnersResource
-from .resourcebase_api import LayerResource, MapResource, DocumentResource, \
+from .resourcebase_api import LayerResource, SensorServerResource, SensorResource, MapResource, DocumentResource, \
     ResourceBaseResource, FeaturedResourceBaseResource
 
 api = Api(api_name='api')
 
 api.register(LayerResource())
+api.register(SensorServerResource())
+api.register(SensorResource())
 api.register(MapResource())
 api.register(DocumentResource())
 api.register(ProfileResource())
